@@ -88,7 +88,26 @@ let find_next_num r num =
   Rope.sub r index_of (end_of - index_of)
 
 let buffer = generate init 2017 329
-let big_buffer = generate init 50000000 329
+(* let big_buffer = generate init 50000000 329 *)
 (* let _ = buffer |> Rope.print_endline *)
 let part1 = find_next_num buffer 2017 |> Rope.print_endline
-let part2 = find_next_num big_buffer 0 |> Rope.print_endline
+(* let part2 = find_next_num big_buffer 0 |> Rope.print_endline *)
+
+let find_next_pos l p step =
+  (step + p) mod l
+
+let find_num_after_zero step =
+
+  (*
+    fake_simulator
+    1 0 0
+    2 0 1
+   *)
+  let rec fake_simulator l p x =
+    let next_pos = find_next_pos l (p + 1) step in
+    if l > 50000000 then x else
+    if next_pos == 0 then fake_simulator (l + 1) next_pos l else fake_simulator (l + 1) next_pos x in
+
+  fake_simulator 1 0 0
+
+let part2 = print_endline (string_of_int (find_num_after_zero 329))
